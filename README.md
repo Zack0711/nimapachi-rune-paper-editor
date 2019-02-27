@@ -27,3 +27,7 @@
 + 尤達大師版 - [編輯](https://ppt.cc/felA9x "Edit Link") | [imgUrl](https://i.imgur.com/uTcpu2X.jpg "imgUrl Link")
 + 議員口號版 - [編輯](https://ppt.cc/fouZFx "Edit Link") | [imgUrl](https://i.imgur.com/B67j128.jpg "imgUrl Link")
 + 市長口號版 - [編輯](https://ppt.cc/fyUeqx "Edit Link") | [imgUrl](https://i.imgur.com/DlQNEXl.jpg "imgUrl Link")
+
+***
+
+## 最佳使用瀏覽器：Chrome，Firefox
