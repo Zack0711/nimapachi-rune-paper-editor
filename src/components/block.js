@@ -18,7 +18,7 @@ const defaultStyle = {
   /* ----------------- */
   isSelected: false,
   mode: 'symbol',
-  opacity: 0.72,
+  opacity: 0.8,
   pattern: {
     span: 0.5,
   },
@@ -30,9 +30,10 @@ const defaultStyle = {
 }
 
 class Block {
-  constructor(svg, container, style, selectCallBack, syncIndicatorCallBack, recordCallBack, textEditCallBack){
+  constructor(svg, container, style, selectCallBack, syncIndicatorCallBack, recordCallBack, textEditCallBack, isFirefox){
     this.svg = svg;
     this.container = container;
+    this.isFirefox = isFirefox;
 
     this.selectCallBack = selectCallBack;
     this.syncIndicatorCallBack = syncIndicatorCallBack;
@@ -277,6 +278,11 @@ class Block {
       });
 
     let factor = allTspanData.length;
+    const scaleFactor = {
+      x: 1,
+      y: 1,
+    };
+
     allTspanData.forEach(d => { if(d.length > factor) factor = d.length; })
 
     this.textInstance.selectAll('text').attrs({
@@ -286,6 +292,10 @@ class Block {
       'transform': (d, i) => {
         const scaleX = factor / allTspanData.length;
         const scaleY = d.length ? factor / d.length : 0;
+
+        if(scaleX > scaleFactor.x) scaleFactor.x = scaleX;
+        if(scaleY > scaleFactor.y) scaleFactor.y = scaleY;
+
         return `scale(${scaleX} ${scaleY})`;
       }
     }).text(d => d);
@@ -295,12 +305,12 @@ class Block {
       height
     } = this.textInstance.node().getBBox();
 
-    let textTransX;
+    let textTransX = 0;
+    let textTransY = this.isFirefox ? -scaleFactor.y*fontSize : -height / 2;
 
     switch(textAnchor){
       case 'start':
-        //textTransX = lineRealHeight / 2 * (2 - allTspanData.length);
-        textTransX = width / 2;
+        textTransX = this.isFirefox ? scaleFactor.x*fontSize : width / 2;
         break;
       case 'middle':
         textTransX = 0;
@@ -324,7 +334,7 @@ class Block {
     })
 
     this.textInstance.attrs({
-      'transform': `translate(${textTransX} ${-height / 2})`,
+      'transform': `translate(${textTransX} ${textTransY})`,
     });
 
     if(needSyncIndicator) this.syncIndicatorCallBack();

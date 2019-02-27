@@ -61,6 +61,8 @@ const imgHandler = new IMGHandler();
 const WIDTH = 320;
 const HEIGHT = 473;
 
+let isFirefox = false
+
 let screenSize = {
   width: 768,
   height: 540,
@@ -420,7 +422,7 @@ const addNewBlock = (newBlock, needSelect = true, needRecord = true) => {
 
 const addBlock = (style, needSelect = true, needRecord = true)  => {
   const newStyle = Object.assign({}, {x: settings.center.x, y: settings.center.y}, style);
-  const newBlock = new Block(svgContainer, canvasContainer, newStyle, selectBlock, setIndicatorStyle, recordHistory, enableTextEdit);
+  const newBlock = new Block(svgContainer, canvasContainer, newStyle, selectBlock, setIndicatorStyle, recordHistory, enableTextEdit, isFirefox);
   addNewBlock(newBlock, needSelect, needRecord);
 }
 
@@ -649,6 +651,8 @@ window.onload = () => {
   const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
   const isEdge = document.documentMode || /Edge/.test(navigator.userAgent);
   const isIE =  /MSIE/.test(navigator.userAgent) || /Trident/.test(navigator.userAgent);
+
+  isFirefox = document.documentMode || /Firefox/.test(navigator.userAgent);
 
   if(isSafari || isEdge || isIE){
     document.body.classList.add('page-disable-notice'); 
