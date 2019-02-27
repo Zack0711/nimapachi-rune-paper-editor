@@ -463,7 +463,7 @@ const getStyleUrlString = (block = { style: {} }) => {
 
 const previewAndDraw = async () => {
   const urlVar = getStyleUrlString(blocksArray[0]);
-  shareUrl = `${location.origin}?${urlVar}`;
+  shareUrl = `${location.origin}${location.pathname}?${urlVar}`;
 
   shareUrlElement.value = shareUrl;
 
