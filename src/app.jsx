@@ -468,8 +468,8 @@ const previewAndDraw = async () => {
   shareUrlElement.value = shareUrl;
 
   let drawElement = d3.select(svgContainer.node().cloneNode(true));
-  const drawWidth = WIDTH * 3;
-  const drawHeight = HEIGHT * 3;
+  const drawWidth = WIDTH * 2;
+  const drawHeight = HEIGHT * 2;
 
   const embedFontData = [];
   const embedFontList = [];
@@ -507,8 +507,8 @@ const previewAndDraw = async () => {
   document.body.classList.add('page-check');
 
   image.onload = () => {
-    const imgWidth = WIDTH * 3;
-    const imgHeight = HEIGHT * 3;
+    const imgWidth = WIDTH * 2;
+    const imgHeight = HEIGHT * 2;
     ctx.canvas.width = imgWidth;
     ctx.canvas.height = imgHeight;
     ctx.drawImage(image, 0, 0,imgWidth, imgHeight);
@@ -518,8 +518,8 @@ const previewAndDraw = async () => {
 }
 
 const sendImage = async () => {
-  const drawWidth = WIDTH * 3;
-  const drawHeight = HEIGHT * 3;
+  const drawWidth = WIDTH * 2;
+  const drawHeight = HEIGHT * 2;
 
   const canvas = document.querySelector('.check-section canvas');
   const imgURL = canvas.getAttribute('data-url');
@@ -670,11 +670,11 @@ window.onload = () => {
     const setting = {
       mode: 'text',
       fontFamily: 'font-hdzb',
-      fontSize: 24,
+      fontSize: 32,
       text: '泥馬霸氣\n符咒\n製成器',
       fill: '#c35e02',
-      x: 162,
-      y:370,
+      x: 165,
+      y:343,
     }
 
     varList.forEach( d => {
