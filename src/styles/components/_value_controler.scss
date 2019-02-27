@@ -1,0 +1,44 @@
+.theme-editor-section{
+  .value-controler{
+
+    &.is-disable{
+      opacity: 0.5;
+
+      .value-bar{
+        background-color: #ccc;
+      }
+      .drag-btn{
+        border-color: #ccc;
+      }
+    }
+
+    position: relative;
+
+    .value-bg{
+      height:3px;
+      border-radius: 2px;
+      background-color: grey;
+    }
+
+    .value-bar{
+      height:3px;
+      border-radius: 2px;
+      background-color: #a5cf4c;
+    }
+
+    .drag-btn{
+      width: 12px;
+      height: 12px;
+      border: 2px solid #a5cf4c;
+      background-color: white;
+      border-radius: 6px;
+      position: absolute;
+      left: -6px;
+      top: -5px;
+
+      .fa{
+        display: none;
+      }
+    }
+  }
+}

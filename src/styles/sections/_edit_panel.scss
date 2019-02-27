@@ -1,0 +1,145 @@
+.theme-editor-section{
+
+  .edit-panel{
+    width: 300px;
+    font-size: 14px;
+    color: #5a5a5a;
+    background-color: #f4f4f4;
+    position: relative;
+
+    .text-edit-area{
+      font-size: 14px;
+    }
+
+    .btn{
+      color: #5a5a5a;
+
+      label,
+      .label{
+        padding: 6px 0;
+        margin: 0;
+        font-size: 10px;
+      }
+    }
+
+    .icon-btn{
+      padding: 0;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 36px;
+
+      .icon-font{
+        font-size: 24px;
+        flex: 0 0 100%;
+      }
+    }
+
+    .btn-pattern-label{
+      .check-box-mark{
+        border-color: #5a5a5a;
+
+        &:after{
+          border-color: #5a5a5a;
+        }
+      }
+    }
+
+    .btn-send{
+      border-radius: 0;
+      border:1px solid #5a5a5a;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+
+      .icon-font{
+        padding-right: 5px;
+        font-size: 24px;
+      }
+    }
+
+  }
+
+  .material-panel{
+    .btn-symbol{
+      position: relative;
+
+      svg{
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 11px;
+        left: 11px;
+      }
+    }
+
+    .text-panel{
+      background-color: #e8e8e8;
+      border-bottom: 1px solid #d0d0d0;
+    }
+
+    .btn.btn-image{
+      margin: 3px 5px
+    }
+  }
+
+  .control-panel{
+    .zoom-pad{
+      position: absolute;
+      top: 0;
+      left: -72px;
+
+      .icon-btn{
+        padding: 5px;
+        border-radius: 18px;
+        margin: 15px;
+        background-color: #808080;
+        color: white;
+
+        &:hover{
+        }
+      }
+    }
+
+    .btn-introduction{
+      position: absolute;
+      display: flex;
+      align-items:center;
+      bottom: 0;
+      right: 0;
+
+      .text-icon{
+        width: 15px;
+        height: 15px;
+        border-radius: 7.5px;
+        background-color: #a5cf4c;
+        color: white;
+        font-size: 10px;
+        margin-right: 5px;
+      }
+
+      .btn-text{
+        font-size: 12px;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .theme-editor-section{
+    .material-panel{
+      width: 410px;
+      .btn-symbol{
+        margin: 3px 4px;
+      }
+      .btn.btn-image{
+        margin: 3px;
+      }
+    }
+  }
+}

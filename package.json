@@ -1,0 +1,51 @@
+{
+  "name": "nimapachi-rune-paper-editor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Zack0711/nimapachi-rune-paper-editor.git",
+  "author": "Zack Lai<zacklai.0711@gmail.com>",
+  "scripts": {
+    "build": "webpack --env=prod -p",
+    "start": "webpack-dev-server --env=dev --content-base --inline"
+  },
+  "browserslist": [
+    "> 0.25%",
+    "IE 11"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.3.1",
+    "jsdoc": "^3.5.5",
+    "node-sass": "^4.9.2",
+    "postcss-loader": "^2.1.6",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "bootstrap": "^4.1.1",
+    "d3": "^5.2.0",
+    "d3-selection-multi": "^1.0.1",
+    "font-awesome": "^4.7.0",
+    "hex-rgb": "^3.0.0",
+    "promise-polyfill": "^7.1.2",
+    "react": "^16.8.3",
+    "react-color": "^2.14.1",
+    "react-dom": "^16.4.2",
+    "react-modal": "^3.6.1",
+    "whatwg-fetch": "^2.0.4"
+  }
+}

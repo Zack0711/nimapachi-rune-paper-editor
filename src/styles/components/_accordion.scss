@@ -1,0 +1,88 @@
+.theme-editor-section{
+  .accordion{
+    border-bottom: 1px solid #d0d0d0;
+    position: relative;
+
+    &:last-child{
+        border-bottom: none;
+    }
+
+    &.active{
+      .accordion--header{
+        color: #000;
+
+        &:before{
+          color: #000;
+          content: "\f107";
+        }
+      }
+
+      .accordion--content{
+        padding: 20px 15px;
+        height: calc(100vh - 224px);
+        min-height: 416px;
+        overflow: auto;
+        opacity: 1;
+        background-color: #f3f3f3;
+      }
+    }
+  }
+
+  .accordion--header{
+    cursor: pointer;
+    background-color: #e8e8e8;
+    padding: 10px 15px 10px 40px;
+
+    &:before{
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #5a5a5a;
+      content: "\f105";
+      display: block;
+      position:absolute;
+      left: 20px;
+      top: 15px;
+    }
+
+    .show-less{
+      display: none;
+    }
+
+    .active & {
+      .show-less{
+        display: initial;
+      }
+
+      .show-more{
+        display: none;
+      }
+    }
+  }
+
+  .accordion--content{
+    padding: 0 15px;
+    height: 0;
+    opacity: 0;
+    transition: opacity .4s, height .5s, padding .5s;
+    overflow:hidden;
+  }
+
+  .theme-panel.active{
+    .accordion--content{
+      &.content{
+        padding-top: 64px;
+        position: relative;
+
+        .theme-header{
+          position: absolute;
+          width: calc(100% - 30px);
+          top: 20px;
+          left: 15px;
+        }
+      }
+    }
+  }
+}

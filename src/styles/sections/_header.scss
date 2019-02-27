@@ -1,0 +1,77 @@
+.theme-editor-section{
+  header{
+    .container-fluid{
+      height: 40px;
+      background-color: #4b4b4b;
+    }
+
+    font-size: 14px;
+    color: #fff;
+
+    h2{
+      font-size: 16px;
+      margin: 0;
+    }
+
+    label{
+      color: #fff;
+    }
+
+    .btn{
+      background-color: #4b4b4b;
+      border-color: #fff;
+      color: #fff;
+      font-size: 14px;
+      border-radius: 0;
+      padding: 3.5px 21px;
+      margin: 0 2.5px;
+      min-width: 70px;
+
+      &:hover{
+        color: #666;
+      }  
+    }
+  }
+
+  label{
+    font-size: 14px;
+    margin: 0;
+    position: relative;
+
+    input[type=checkbox]{
+      opacity: 0;
+
+      &:checked ~ .check-box-mark{
+
+        &:after{
+          display: block;
+        }
+      }
+    }
+
+    .check-box-mark{
+      width: 16px;
+      height: 16px;
+      background-color: transparent;
+      border: 1px solid #fff;
+      border-radius: 2px;
+      position: absolute;
+      display: block;
+      top: 12px;
+      left: 0;
+
+      &:after{
+        content: '';
+        display: none;
+        position: absolute;
+        left: 5px;
+        top: 1px;
+        width: 5px;
+        height: 10px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+}

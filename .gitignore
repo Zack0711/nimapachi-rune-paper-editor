@@ -1,0 +1,14 @@
+node_modules/
+coverage/
+__snapshots__/
+source_files/
+.cache
+.DS_Store
+*.log
+*.pyc
+*.retry
+*.map
+*.lock
+*.7z
+.coverage
+package-lock.json

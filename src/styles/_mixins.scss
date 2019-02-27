@@ -1,0 +1,77 @@
+// Font setting
+@mixin font-setting( $site: '' ) {
+    @if $site == tw {
+        font-family: $font-tw;
+    } @else if $site == cn {
+        font-family: $font-cn;
+    } @else if $site == jp {
+        font-family: $font-jp;
+    } @else {
+        font-family: $font-default;
+    }    
+}
+
+// Background Image
+@mixin bg-setting($size: contain, $repeat: no-repeat, $position: center){
+    background-size: $size;
+    background-repeat: $repeat;
+    background-position: $position;    
+}
+
+@mixin bg-img($url, $width: '', $height: $width){
+    background-image:url($url);
+    @if $width != '' { width: $width; }
+    @if $height != '' { height: $height; }
+}
+
+//Position
+@mixin position($left:'', $top:'', $pos: absolute, $right:'', $bottom:''){
+    position: $pos;
+    @if $top != '' { top:$top; }
+    @if $right != '' { right:$right; }
+    @if $bottom != '' { bottom:$bottom; }
+    @if $left != '' { left:$left; }
+}
+
+// Circle
+@mixin shape-circle($width, $color: $color-dark, $height: $width){
+    width: $width;
+    height: $height;
+    background-color:$color;
+    border-radius: $width/2 $height/2;
+    display:block;
+}
+
+// Triangle
+@mixin shape-triangle($angle-dir, $width, $color: $color-dark, $height: $width){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    display:block;
+
+    @if $angle-dir == top {
+        border-width: $height $width/2 0 $width/2;
+        border-color: $color transparent transparent transparent;
+    }    
+    @if $angle-dir == right {
+        border-width: $width/2 0 $width/2  $height;
+        border-color: transparent transparent transparent $color;
+    }    
+    @if $angle-dir == bottom {
+        border-width: 0 $width/2 $height $width/2;
+        border-color: transparent transparent $color transparent;
+    }    
+    @if $angle-dir == left {
+        border-width: $width/2 $height $width/2 0;
+        border-color: transparent $color transparent transparent;
+    }    
+
+}
+
+//Rectangle
+@mixin shape-rectangle($width, $color: $color-dark, $height: $width){
+    width: $width;
+    height: $height;
+    background-color:$color;
+    display:block;
+}

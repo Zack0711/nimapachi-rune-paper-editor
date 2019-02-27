@@ -1,0 +1,85 @@
+.theme-editor-section{
+  .btn{
+    background-color: #f4f4f4;
+    border-color: transparent;
+    color: #999;
+    font-size: 15px;
+
+    &:hover{
+      color: #666;
+    }  
+  }
+
+  .btn-font-style{
+    width: 30px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid #dadada;
+    background-color: white;
+    font-size: 20px;
+    padding: 0;
+    text-align: center; 
+    margin: 0;
+
+    &:disabled{
+      border: 1px solid #dadada;
+      background-color: white;
+    }
+
+    &:not(:disabled):not(.disabled){
+      &.active{
+        background-color: rgba(165, 207, 76, 0.3);
+      }    
+    }
+
+    .fa{
+      display: block;
+      text-decoration: inherit;
+      text-align: center;    
+    }
+  }
+
+  .translate-btn{
+    background-color: transparent;
+  }
+
+  .btn-symbol{
+    font-size: 24px;
+    background-color: white;
+    background-size: 24px 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    width: 54px;
+    height: 54px;
+    padding: 10px;
+    margin: 3px;
+  }
+
+  .btn.btn-image{
+    font-size: 24px;
+    background-color: black;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    width: 70px;
+    height: 110px;
+    padding: 10px;
+    margin: 3px;  
+
+    &.btn-image-them{
+      background-size: cover;
+    }
+
+    &:hover,
+    &:active{
+      background-color: black;
+      border-color: black;
+    }
+  }
+
+  .btn-primary{
+    background-color: #a5cf4c !important;    
+  }
+}
