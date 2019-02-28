@@ -19,14 +19,14 @@
 
 ![Example Image](/images/example-3.png "Example Image")
 
-#### 完成編輯後，可自行下載或是上傳至imgurl分享給朋友
+#### 完成編輯後，可自行下載或是上傳至imgur分享給朋友
 ![Example Image](/images/example-4.jpg "Example Image")
 
 #### 選擇任一款式開始編輯吧！選擇任一款式開始編輯吧！
-+ 小熊經典款 - [編輯](https://ppt.cc/f5tfhx "Edit Link") | [imgUrl](https://i.imgur.com/AByfXaP.jpg "imgUrl Link")
-+ 尤達大師版 - [編輯](https://ppt.cc/felA9x "Edit Link") | [imgUrl](https://i.imgur.com/uTcpu2X.jpg "imgUrl Link")
-+ 議員口號版 - [編輯](https://ppt.cc/fouZFx "Edit Link") | [imgUrl](https://i.imgur.com/B67j128.jpg "imgUrl Link")
-+ 市長口號版 - [編輯](https://ppt.cc/fyUeqx "Edit Link") | [imgUrl](https://i.imgur.com/DlQNEXl.jpg "imgUrl Link")
++ 小熊經典款 - [編輯](https://ppt.cc/f5tfhx "Edit Link") | [imgur](https://i.imgur.com/AByfXaP.jpg "imgur Link")
++ 尤達大師版 - [編輯](https://ppt.cc/felA9x "Edit Link") | [imgru](https://i.imgur.com/uTcpu2X.jpg "imgur Link")
++ 議員口號版 - [編輯](https://ppt.cc/fouZFx "Edit Link") | [imgur](https://i.imgur.com/B67j128.jpg "imgur Link")
++ 市長口號版 - [編輯](https://ppt.cc/fyUeqx "Edit Link") | [imgur](https://i.imgur.com/DlQNEXl.jpg "imgur Link")
 
 ***
 
