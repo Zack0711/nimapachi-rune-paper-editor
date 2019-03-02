@@ -14,115 +14,111 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="style.css" rel="stylesheet"></head>
   <body class="page-initial">
-    <main>
-      <section id="theme-editor" class="theme-editor-section">
-        <main>
-          <div class="container-fluid p-0">
-            <div class="row no-gutters flex-nowrap">
-              <div class="main row no-gutters justify-content-center align-items-center">
-                <div class=main-content> <div class=content> <div class=svg-container> <svg class="svg-canvas show-boundary"> <defs> <style type=text/css></style> <g id=theme-bg class=image-def> <image x=0 y=0 href=images/bg.png width=320 height=473></image> </g> <g id=theme-mask class=image-def> <image x=0 y=0 href=images/mask.png width=320 height=473></image> </g> <mask id=mask> <image x=0 y=0 href=images/mask.png width=320 height=473></image> </mask> </defs> </svg> </div> </div> </div>
+    <section id="theme-editor" class="theme-editor-section">
+      <main>
+        <div class="row no-gutters">
+          <div class="main row no-gutters justify-content-center align-items-center">
+            <div class=main-content> <div class=content> <div class=svg-container> <svg class="svg-canvas show-boundary"> <defs> <style type=text/css></style> <g id=theme-bg class=image-def> <image x=0 y=0 xlink:href=images/bg.png width=320 height=473></image> </g> <g id=theme-mask class=image-def> <image x=0 y=0 xlink:href=images/mask.png width=320 height=473></image> </g> <mask id=mask> <image x=0 y=0 xlink:href=images/mask.png width=320 height=473></image> </mask> </defs> </svg> </div> </div> </div>
+          </div>
+          <div class="edit-panel control-panel"> <div class=p-3> <div class="px-3 form-group"> <textarea class="text-edit-area form-control my-3" rows=4></textarea> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 大小 <i class="fa fa-expand mx-2" aria-hidden=true></i> </div> <div class="col scale-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 角度 <i class="fa fa-repeat mx-2" aria-hidden=true></i> </div> <div class="col rotate-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 顏色 <i class="fa fa-paint-brush mx-2" aria-hidden=true></i> </div> <div class="col color-picker"></div> </div> </div> </div> <div class=p-3> <div class="px-3 form-group"> <button class="btn btn-light btn-send px-5 w-100"> 完成 </button> </div> </div> <div class=p-3> <div class="px-3 form-group"> <a href=https://github.com/Zack0711/nimapachi-rune-paper-editor target=blank class="btn btn-light"> <i class="fa fa-github" aria-hidden=true></i> Github. </a> </div> </div> </div> 
+        </div>
+        <div class="js-r-modal"></div>
+      </main>
+      <div class="loading-panel">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <section class="check-section">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="text-center text-light">
+                  完成啦！
+                </div>
+                <button class="btn btn-close"><i class="icon-font icon-f-close"></i></button>
               </div>
-              <div class="edit-panel control-panel"> <div class=p-3> <div class="px-3 form-group"> <textarea class="text-edit-area form-control my-3" rows=4></textarea> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 大小 <i class="fa fa-expand mx-2" aria-hidden=true></i> </div> <div class="col scale-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 角度 <i class="fa fa-repeat mx-2" aria-hidden=true></i> </div> <div class="col rotate-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 顏色 <i class="fa fa-paint-brush mx-2" aria-hidden=true></i> </div> <div class="col color-picker"></div> </div> </div> </div> <div class=p-3> <div class="px-3 form-group"> <button class="btn btn-light btn-send px-5 w-100"> 完成 </button> </div> </div> <div class=p-3> <div class="px-3 form-group"> <a href=https://github.com/Zack0711/nimapachi-rune-paper-editor target=blank class="btn btn-light"> <i class="fa fa-github" aria-hidden=true></i> Github. </a> </div> </div> </div> 
+              <div class="panel-body">
+                <div class="preview">
+                  <canvas></canvas>
+                  <div class="share-col share-url-col col-12">
+                    分享網址:
+                    <input type="text" class="url" />
+                    <button class="btn btn-copy">
+                      <i class="fa fa-files-o" aria-hidden="true"></i> 複製
+                    </button>
+                  </div>
+                  <div class="share-col img-url-col col-12 d-none">
+                    imgurl:
+                    <input type="text" class="url" />
+                    <button class="btn btn-copy">
+                      <i class="fa fa-files-o" aria-hidden="true"></i> 複製
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <div class="d-flex justify-content-center">
+                  <button class="btn btn-cancel">
+                    <i class="fa fa-pencil" aria-hidden="true"></i><br/>
+                    編輯
+                  </button>
+                  <button class="btn btn-confirm">
+                    <i class="fa fa-cloud-upload" aria-hidden="true"></i><br/>
+                    上傳imgurl
+                  </button>
+                  <button class="btn btn-download">
+                    <i class="fa fa-download" aria-hidden="true"></i><br/>
+                    下載圖片
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="js-r-modal"></div>
-          </div>            
-        </main>
-        <div class="loading-panel">
-          <div class="d-flex justify-content-center align-items-center h-100">
-            <section class="check-section">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <div class="text-center text-light">
-                    完成啦！
-                  </div>
-                  <button class="btn btn-close"><i class="icon-font icon-f-close"></i></button>
-                </div>
-                <div class="panel-body">
-                  <div class="preview">
-                    <canvas></canvas>
-                    <div class="share-col share-url-col col-12">
-                      分享網址:
-                      <input type="text" class="url" />
-                      <button class="btn btn-copy">
-                        <i class="fa fa-files-o" aria-hidden="true"></i> 複製
-                      </button>
-                    </div>
-                    <div class="share-col img-url-col col-12 d-none">
-                      imgurl:
-                      <input type="text" class="url" />
-                      <button class="btn btn-copy">
-                        <i class="fa fa-files-o" aria-hidden="true"></i> 複製
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel-footer">
-                  <div class="d-flex justify-content-center">
-                    <button class="btn btn-cancel">
-                      <i class="fa fa-pencil" aria-hidden="true"></i><br/>
-                      編輯
-                    </button>
-                    <button class="btn btn-confirm">
-                      <i class="fa fa-cloud-upload" aria-hidden="true"></i><br/>
-                      上傳imgurl
-                    </button>
-                    <button class="btn btn-download">
-                      <i class="fa fa-download" aria-hidden="true"></i><br/>
-                      下載圖片
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
-          <div class="d-flex justify-content-center align-items-center h-100">
-            <section class="loading-section text-center">
-              <div>
-                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-              </div>
-              <p class="loading-info">上傳圖片中 ...</p>          
-            </section>
-            <section class="notice-section">
-              <div class="panel">
-                <div class="panel-body">
-                  <p>
-                    本頁功能暫不支援你使用的瀏覽器<br/>
-                    請改使用Chrome或是Firefox瀏覽器
-                  </p>
-                </div>
-              </div>                
-            </section>
-            <section class="notice-error-section">
-              <div class="panel">
-                <div class="panel-body">
-                  <p class="pb-5">
-                    讀取資料中發生錯誤，請重整網頁或稍候再進行一次操作。
-                  </p>
-                </div>
-                <div class="panel-footer text-center">
-                  <button class="btn btn-confirm">確認</button>
-                </div>
-              </div>                
-            </section>
-          </div>
+          </section>
         </div>
-        <div class="notice-panel">
-          <div class="d-flex justify-content-center align-items-center h-100">
-            <section class="notice-screen-size-section">
-              <div class="panel">
-                <div class="panel-body">
-                  <p class="pb-5">
-                    建議使用較大的螢幕解析度( > 1024 x 768px )。
-                  </p>
-                </div>
-                <div class="panel-footer text-center">
-                  <button class="btn btn-confirm">確認</button>
-                </div>
-              </div>                
-            </section>
-          </div>
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <section class="loading-section text-center">
+            <div>
+              <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+            </div>
+            <p class="loading-info">上傳圖片中 ...</p>          
+          </section>
+          <section class="notice-section">
+            <div class="panel">
+              <div class="panel-body">
+                <p>
+                  本頁功能暫不支援你使用的瀏覽器<br/>
+                  請改使用Chrome或是Firefox瀏覽器
+                </p>
+              </div>
+            </div>                
+          </section>
+          <section class="notice-error-section">
+            <div class="panel">
+              <div class="panel-body">
+                <p class="pb-5">
+                  讀取資料中發生錯誤，請重整網頁或稍候再進行一次操作。
+                </p>
+              </div>
+              <div class="panel-footer text-center">
+                <button class="btn btn-confirm">確認</button>
+              </div>
+            </div>                
+          </section>
         </div>
-      </section>
-    </main>
+      </div>
+      <div class="notice-panel">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <section class="notice-screen-size-section">
+            <div class="panel">
+              <div class="panel-body">
+                <p class="pb-5">
+                  建議使用較大的螢幕解析度( > 1024 x 768px )。
+                </p>
+              </div>
+              <div class="panel-footer text-center">
+                <button class="btn btn-confirm">確認</button>
+              </div>
+            </div>                
+          </section>
+        </div>
+      </div>
+    </section>
   <script type="text/javascript" src="js/vendor.js"></script><script type="text/javascript" src="js/app.js"></script></body>
 </html>

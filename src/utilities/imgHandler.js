@@ -21,10 +21,10 @@ class IMGHandler {
         const useTag = d.querySelector('use');
         if(useTag){
           const defId = useTag.getAttribute('href').replace('#', '');
-          const defTag = svgNode.getElementById(defId);
+          const defTag = document.getElementById(defId);
           //d.removeChild(d.querySelector('text'));
           if(defTag.classList.contains('image-def') && !imgDefs[defId]){
-            imgArray.push({id: defId, url: defTag.querySelector('image').getAttribute('href')})
+            imgArray.push({id: defId, url: defTag.querySelector('image').getAttribute('xlink:href')})
             imgDefs[defId] = defTag;
           }
         } 
@@ -33,7 +33,7 @@ class IMGHandler {
       const base64Array = await Promise.all(imgArray.map(d => this.blobToBase64(d.id, d.url)));
 
       base64Array.forEach( d => {
-        imgDefs[d.id].querySelector('image').setAttribute('href', d.data);
+        imgDefs[d.id].querySelector('image').setAttribute('xlink:href', d.data);
       })
 
       allBlockTag.forEach( d => {
@@ -43,7 +43,7 @@ class IMGHandler {
           const defId = useTag.getAttribute('href').replace('#', '');
           if(imgDefs[defId]){
             const newImage = imgDefs[defId].querySelector('image').cloneNode(true);
-            const dataHref = newImage.getAttribute('href');
+            const dataHref = newImage.getAttribute('xlink:href');
 
             newImage.setAttribute('transform', transform);
             newImage.setAttribute('xlink:href', dataHref);
@@ -56,9 +56,9 @@ class IMGHandler {
       })
 
       const mask = svgNode.querySelector('#mask');
-      const maskImgUrl = mask.querySelector('image').getAttribute('href');
+      const maskImgUrl = mask.querySelector('image').getAttribute('xlink:href');
       const maskBase64 = await this.blobToBase64('#mask', maskImgUrl);
-      mask.querySelector('image').setAttribute('href', maskBase64.data);
+      mask.querySelector('image').setAttribute('xlink:href', maskBase64.data);
       resolve(svgNode);
     })
   }
@@ -72,7 +72,8 @@ class IMGHandler {
     svgString = svgString.replace(/(\w+)?:?xlink=/g, 'xmlns:xlink='); // Fix root xlink without namespace
     svgString = svgString.replace(/NS\d+:href/g, 'xlink:href'); // Safari NS namespace fix
 
-    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+    const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+    //return svgString;
     return URL.createObjectURL(svgBlob)
   }
 
@@ -103,7 +104,7 @@ class IMGHandler {
     const a = document.createElement('a');
     a.setAttribute('download', `${fileName}-${creatTime.getTime()}.${fileType}`);
     a.setAttribute('href', url);
-    a.setAttribute('target', '_blank');
+    a.setAttribute('target', '_self');
     a.dispatchEvent(event);    
   }
 

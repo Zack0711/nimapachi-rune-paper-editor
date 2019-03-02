@@ -61,7 +61,12 @@ const imgHandler = new IMGHandler();
 const WIDTH = 320;
 const HEIGHT = 473;
 
-let isFirefox = false
+
+const browser = {
+  isFirefox: false,
+  isSafari: false,
+  isIOS: false,
+}
 
 let screenSize = {
   width: 768,
@@ -422,7 +427,7 @@ const addNewBlock = (newBlock, needSelect = true, needRecord = true) => {
 
 const addBlock = (style, needSelect = true, needRecord = true)  => {
   const newStyle = Object.assign({}, {x: settings.center.x, y: settings.center.y}, style);
-  const newBlock = new Block(svgContainer, canvasContainer, newStyle, selectBlock, setIndicatorStyle, recordHistory, enableTextEdit, isFirefox);
+  const newBlock = new Block(svgContainer, canvasContainer, newStyle, selectBlock, setIndicatorStyle, recordHistory, enableTextEdit, browser);
   addNewBlock(newBlock, needSelect, needRecord);
 }
 
@@ -496,6 +501,8 @@ const previewAndDraw = async () => {
 
   const svgNode = await imgHandler.handleSVGNode(drawElement.node());
   const imgURL = imgHandler.getSVGUrl(svgNode);
+
+  //console.log(imgURL)
 
   pageStopLoading();
 
@@ -652,9 +659,13 @@ window.onload = () => {
   const isEdge = document.documentMode || /Edge/.test(navigator.userAgent);
   const isIE =  /MSIE/.test(navigator.userAgent) || /Trident/.test(navigator.userAgent);
 
-  isFirefox = document.documentMode || /Firefox/.test(navigator.userAgent);
+  browser.isFirefox = document.documentMode || /Firefox/.test(navigator.userAgent);
+  browser.isIOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+  browser.isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
 
-  if(isSafari || isEdge || isIE){
+
+//  if(isSafari || isEdge || isIE){
+  if(isEdge || isIE){
     document.body.classList.add('page-disable-notice'); 
   }else{
     document.body.classList.remove('page-initial'); 

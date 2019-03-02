@@ -30,10 +30,10 @@ const defaultStyle = {
 }
 
 class Block {
-  constructor(svg, container, style, selectCallBack, syncIndicatorCallBack, recordCallBack, textEditCallBack, isFirefox){
+  constructor(svg, container, style, selectCallBack, syncIndicatorCallBack, recordCallBack, textEditCallBack, browser){
     this.svg = svg;
     this.container = container;
-    this.isFirefox = isFirefox;
+    this.browser = browser;
 
     this.selectCallBack = selectCallBack;
     this.syncIndicatorCallBack = syncIndicatorCallBack;
@@ -306,11 +306,22 @@ class Block {
     } = this.textInstance.node().getBBox();
 
     let textTransX = 0;
-    let textTransY = this.isFirefox ? -scaleFactor.y*fontSize : -height / 2;
+    let textTransY = this.browser.isFirefox ? -scaleFactor.y*fontSize : -height / 2;
+
+    const strokeW = width/16;
+    const rectW = width + strokeW*0.8;
+    const rectH = height + strokeW*0.8;
 
     switch(textAnchor){
       case 'start':
-        textTransX = this.isFirefox ? scaleFactor.x*fontSize : width / 2;
+        if(this.browser.isIOS || this.browser.isSafari ){
+          textTransX = (allTspanData.length - 1)*fontSize*0.5;
+          if(this.browser.isIOS) textTransX += strokeW;
+        }else if(this.browser.isFirefox){
+          textTransX = scaleFactor.x*fontSize;
+        }else{
+          textTransX = width / 2;
+        }
         break;
       case 'middle':
         textTransX = 0;
@@ -319,10 +330,6 @@ class Block {
         textTransX = width / 2;
         break;
     }
-
-    const strokeW = width/16;
-    const rectW = width + strokeW*0.8;
-    const rectH = height + strokeW*0.8;
 
     this.rect.attrs({
       width: rectW,
