@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 export const getURLVariables = (url) => {
   const urlVariables = url.split('?')[1]
   return urlVariables ? urlVariables.split('&').map((data) => {
@@ -8,39 +6,16 @@ export const getURLVariables = (url) => {
   }) : []
 }
 
-export const hasClass = (element, className) => element.getAttribute('class').indexOf(className) > -1
-
-export const addClass = (element, className) => {
-  const classNameList = _.union(element.getAttribute('class').split(' '), className)
-  element.setAttribute('class', classNameList.join(' '))
-}
-
-export const removeClass = (element, className) => {
-  const classNameList = _.difference(element.getAttribute('class').split(' '), className)
-  element.setAttribute('class', classNameList.join(' '))
-}
-
-export const toggleClass = (element, className) => {
-  if(hasClass(element, className)){
-    removeClass(element, [className])    
-  }else{
-    addClass(element, [className])
-  }
-}
-
-export const defaultTranslate = (setting = {}) => {
-  return key => setting[key] ? setting[key] : key
-}
-
 export const collectDataAttribute = (element) => {
   const elementAttr = element.attributes
   const attrData = {}
-  _.forEach(elementAttr, (attr) => {
+  for(let i = 0; i < elementAttr.length; i += 1){
+    const attr = elementAttr[i];
     if(attr.name.indexOf('data-') > -1){ 
       const attrName = attr.name.replace('data-', '').split('-').map((d, i) => i ? d.replace(d[0], d[0].toUpperCase()) : d ).join('')
       attrData[attrName] = attr.value
     }
-  })
+  }
   return  attrData
 }
 
@@ -67,3 +42,11 @@ export const copyToClipboard = str => {
   document.body.removeChild(el);
   confirm("網址已複製");
 };
+
+export const browserDetect = () => ({ 
+  isFirefox: document.documentMode || /Firefox/.test(navigator.userAgent),
+  isEdge: document.documentMode || /Edge/.test(navigator.userAgent),
+  isIE: /MSIE/.test(navigator.userAgent) || /Trident/.test(navigator.userAgent),
+  isIOS: !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform),
+  isSafari: !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/),
+});

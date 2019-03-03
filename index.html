@@ -7,22 +7,23 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'UA-135284689-1');
     </script>
     <title>泥馬霸氣符咒編輯器</title>
+    <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="style.css" rel="stylesheet"></head>
   <body class="page-initial">
     <section id="theme-editor" class="theme-editor-section">
       <main>
-        <div class="row no-gutters">
-          <div class="main row no-gutters justify-content-center align-items-center">
-            <div class=main-content> <div class=content> <div class=svg-container> <svg class="svg-canvas show-boundary"> <defs> <style type=text/css></style> <g id=theme-bg class=image-def> <image x=0 y=0 xlink:href=images/bg.png width=320 height=473></image> </g> <g id=theme-mask class=image-def> <image x=0 y=0 xlink:href=images/mask.png width=320 height=473></image> </g> <mask id=mask> <image x=0 y=0 xlink:href=images/mask.png width=320 height=473></image> </mask> </defs> </svg> </div> </div> </div>
-          </div>
-          <div class="edit-panel control-panel"> <div class=p-3> <div class="px-3 form-group"> <textarea class="text-edit-area form-control my-3" rows=4></textarea> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 大小 <i class="fa fa-expand mx-2" aria-hidden=true></i> </div> <div class="col scale-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 角度 <i class="fa fa-repeat mx-2" aria-hidden=true></i> </div> <div class="col rotate-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 顏色 <i class="fa fa-paint-brush mx-2" aria-hidden=true></i> </div> <div class="col color-picker"></div> </div> </div> </div> <div class=p-3> <div class="px-3 form-group"> <button class="btn btn-light btn-send px-5 w-100"> 完成 </button> </div> </div> <div class=p-3> <div class="px-3 form-group"> <a href=https://github.com/Zack0711/nimapachi-rune-paper-editor target=blank class="btn btn-light"> <i class="fa fa-github" aria-hidden=true></i> Github. </a> </div> </div> </div> 
+        <div class="container-fluid">
+          <div class="row no-gutters">
+            <div class="main row no-gutters justify-content-center align-items-center">
+              <div class=main-content> <div class=content> <div class=svg-container> <svg class="svg-canvas show-boundary"> <defs> <style type=text/css></style> <g id=theme-bg-01 class=image-def> <image x=0 y=0 xlink:href=images/bg-01.png width=320 height=480></image> </g> <g id=theme-bg-02 class=image-def> <image x=0 y=0 xlink:href=images/bg-02.jpg width=320 height=490></image> </g> <mask id=mask-01> <image x=0 y=0 xlink:href=images/mask-01.png width=320 height=480></image> </mask> <mask id=mask-02> <image x=0 y=0 xlink:href=images/mask-02.png width=320 height=490></image> </mask> </defs> </svg> </div> </div> </div>
+            </div>
+            <div class="edit-panel control-panel"> <div class=p-3> <div class="px-3 form-group"> <textarea class="text-edit-area form-control my-3" rows=4></textarea> <div class="py-3 row no-gutters align-items-center"> <div class="font-family-selector col-6 pr-1"></div> <div class="btn-group col-6 pl-1"> <button class="btn btn-light btn-font-style btn-text-left w-50"> <i class="icon-font icon-t-stamp"></i> </button> <button class="btn btn-light btn-font-style btn-text-right w-50"> <i class="icon-font icon-t-normal"></i> </button> </div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 大小 <i class="fa fa-expand mx-2" aria-hidden=true></i> </div> <div class="col scale-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 角度 <i class="fa fa-repeat mx-2" aria-hidden=true></i> </div> <div class="col rotate-controler value-controler"></div> </div> <div class="p-3 row no-gutters align-items-center"> <div class=pr-3> 顏色 <i class="icon-font icon-palette mx-2" aria-hidden=true></i> </div> <div class="col color-picker"></div> </div> </div> </div> <div class=p-3> <div class="px-3 form-group"> <button class="btn btn-light btn-theme px-5 w-100"> 選擇樣式 </button> </div> <div class="px-3 form-group"> <button class="btn btn-light btn-send px-5 w-100"> 完成 </button> </div> </div> <div class=p-3> <div class="px-3 form-group"> <a href=https://github.com/Zack0711/nimapachi-rune-paper-editor target=blank class="btn btn-light"> <i class="icon-font icon-github-circled-alt2 mr-2" aria-hidden=true></i> Github. </a> </div> </div> </div> 
+          </div>          
         </div>
-        <div class="js-r-modal"></div>
       </main>
       <div class="loading-panel">
         <div class="d-flex justify-content-center align-items-center h-100">
@@ -32,7 +33,7 @@
                 <div class="text-center text-light">
                   完成啦！
                 </div>
-                <button class="btn btn-close"><i class="icon-font icon-f-close"></i></button>
+                <button class="btn btn-close"><i class="icon-font icon-cancel"></i></button>
               </div>
               <div class="panel-body">
                 <div class="preview">
@@ -103,22 +104,7 @@
           </section>
         </div>
       </div>
-      <div class="notice-panel">
-        <div class="d-flex justify-content-center align-items-center h-100">
-          <section class="notice-screen-size-section">
-            <div class="panel">
-              <div class="panel-body">
-                <p class="pb-5">
-                  建議使用較大的螢幕解析度( > 1024 x 768px )。
-                </p>
-              </div>
-              <div class="panel-footer text-center">
-                <button class="btn btn-confirm">確認</button>
-              </div>
-            </div>                
-          </section>
-        </div>
-      </div>
     </section>
+    <div class="js-r-modal"></div>
   <script type="text/javascript" src="js/vendor.js"></script><script type="text/javascript" src="js/app.js"></script></body>
 </html>

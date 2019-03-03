@@ -47,6 +47,7 @@
       }
     }
 
+    .btn-theme,
     .btn-send{
       border-radius: 0;
       border:1px solid #5a5a5a;
@@ -130,16 +131,45 @@
   }
 }
 
-@media screen and (min-width: 1440px) {
-  .theme-editor-section{
-    .material-panel{
-      width: 410px;
-      .btn-symbol{
-        margin: 3px 4px;
-      }
-      .btn.btn-image{
-        margin: 3px;
-      }
-    }
+.panel .theme-card{
+  .thumbnail{
+    width: 160px;
+    height: 160px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 10px auto 0;
   }
+
+  .btn-select{
+    border: 0;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  &.theme-card-01 .thumbnail{ background-image: url(./images/theme-01.png);}
+  &.theme-card-02 .thumbnail{ background-image: url(./images/theme-02.png);}
+}
+
+.ReactModalPortal .modal-content{
+  width: auto;
+}
+
+.ReactModalPortal .panel{
+  min-width: 60vw;
+  padding-bottom: 0;
+}
+
+@include media-breakpoint-down(xs) {
+  .ReactModalPortal .modal-content{
+    width: calc(100% - 20px);
+  }
+
+  .panel .theme-card{
+    .thumbnail{
+      width: 120px;
+      height: 120px;
+    }
+  }  
+
 }

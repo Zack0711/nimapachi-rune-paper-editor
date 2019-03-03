@@ -55,7 +55,8 @@ class IMGHandler {
         })
       })
 
-      const mask = svgNode.querySelector('#mask');
+      const maskUrl = svgNode.querySelector('.canvas-container').getAttribute('data-mask');
+      const mask = svgNode.querySelector(maskUrl);
       const maskImgUrl = mask.querySelector('image').getAttribute('xlink:href');
       const maskBase64 = await this.blobToBase64('#mask', maskImgUrl);
       mask.querySelector('image').setAttribute('xlink:href', maskBase64.data);

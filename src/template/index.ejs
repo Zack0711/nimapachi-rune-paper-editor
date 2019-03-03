@@ -7,22 +7,23 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'UA-135284689-1');
     </script>
     <title>泥馬霸氣符咒編輯器</title>
+    <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
   </head>
   <body class="page-initial">
     <section id="theme-editor" class="theme-editor-section">
       <main>
-        <div class="row no-gutters">
-          <div class="main row no-gutters justify-content-center align-items-center">
-            ${require('./components/svg-container.html')}
-          </div>
-          ${require('./components/edit-panel.html')}
+        <div class="container-fluid">
+          <div class="row no-gutters">
+            <div class="main row no-gutters justify-content-center align-items-center">
+              ${require('./components/svg-container.html')}
+            </div>
+            ${require('./components/edit-panel.html')}
+          </div>          
         </div>
-        <div class="js-r-modal"></div>
       </main>
       <div class="loading-panel">
         <div class="d-flex justify-content-center align-items-center h-100">
@@ -32,7 +33,7 @@
                 <div class="text-center text-light">
                   完成啦！
                 </div>
-                <button class="btn btn-close"><i class="icon-font icon-f-close"></i></button>
+                <button class="btn btn-close"><i class="icon-font icon-cancel"></i></button>
               </div>
               <div class="panel-body">
                 <div class="preview">
@@ -103,22 +104,7 @@
           </section>
         </div>
       </div>
-      <div class="notice-panel">
-        <div class="d-flex justify-content-center align-items-center h-100">
-          <section class="notice-screen-size-section">
-            <div class="panel">
-              <div class="panel-body">
-                <p class="pb-5">
-                  建議使用較大的螢幕解析度( > 1024 x 768px )。
-                </p>
-              </div>
-              <div class="panel-footer text-center">
-                <button class="btn btn-confirm">確認</button>
-              </div>
-            </div>                
-          </section>
-        </div>
-      </div>
     </section>
+    <div class="js-r-modal"></div>
   </body>
 </html>

@@ -5,8 +5,9 @@ const defaultStyle = {
   fill: '#eee',
   flipX: 1,
   flipY: 1,
+  theme: 'classical',
   /* -- text setting --*/
-  fontSize: 12,
+  fontSize: 16,
   lineHeight: 1,
   fontFamily: 'font-hdzb',
   fontStyle: 'normal',
@@ -15,10 +16,11 @@ const defaultStyle = {
   text: '',
   textDecoration: 'none',
   textAnchor: 'start',
+  textMode: 'stamp',
   /* ----------------- */
   isSelected: false,
   mode: 'symbol',
-  opacity: 0.8,
+  opacity: 0.84,
   pattern: {
     span: 0.5,
   },
@@ -57,28 +59,6 @@ class Block {
     let clickTimer;
     let dragTimer;
     let clickTimes = 0;
-
-    /*
-    const mouseUp = () => {
-      if(this.isMoving) this.update({}, 'move', true, true);
-      this.isMoving = false
-      d3.select(window).on('mousemove', null);
-      d3.select(window).on('mouseup', null);
-
-      clearTimeout(moveBindTimer);
-      clickTimer = setTimeout(()=>{
-        clickTimes = 0;
-        clearTimeout(clickTimer);
-      }, 250);
-    }
-
-    const mouseMove = () => {
-      if(!this.style.isSelected) this.update({}, 'select', true, true);
-      const mousePos = d3.mouse(this.container.node());
-      this.isMoving = true;
-      this.update({x: mousePos[0], y: mousePos[1]}, 'move', true);
-    }
-    */
 
     const dragEvent = d3.drag().on('drag', d => {
       if(!this.style.isSelected) this.update({}, 'select', true, true);
@@ -203,6 +183,7 @@ class Block {
       text,
       textDecoration,
       textAnchor,
+      textMode,
       /* ----------------- */
       mode,
       opacity,
@@ -213,7 +194,9 @@ class Block {
       y,
     } = this.style;
 
-    const lineRealHeight = scale * fontSize * lineHeight;
+    const realFontSize = fontSize * scale;
+
+    const lineRealHeight = realFontSize * lineHeight;
 
     let vectorX = x;
     let vectorY = y;
@@ -255,9 +238,7 @@ class Block {
     allTspanTag.enter().append('text');
 
     this.textInstance.attrs({
-      'dominant-baseline': 'text-before-edge',
-      'text-anchor': textAnchor,
-      'font-size': fontSize * scale,
+      'font-size': realFontSize,
       'font-family': `${fontFamily}`,
       'font-style': fontStyle,
       'font-weight': fontWeight,
@@ -281,6 +262,8 @@ class Block {
     const scaleFactor = {
       x: 1,
       y: 1,
+      wordY: 1,
+      fox: 1,
     };
 
     allTspanData.forEach(d => { if(d.length > factor) factor = d.length; })
@@ -288,15 +271,19 @@ class Block {
     this.textInstance.selectAll('text').attrs({
       x: (d, i) => -i * lineRealHeight,
       y: 0,
+      'dominant-baseline': 'text-before-edge',
+      'text-anchor': textAnchor,
       'writing-mode': 'tb',
       'transform': (d, i) => {
         const scaleX = factor / allTspanData.length;
-        const scaleY = d.length ? factor / d.length : 0;
+        const scaleY = d.length ? factor / d.length : 1;
 
         if(scaleX > scaleFactor.x) scaleFactor.x = scaleX;
         if(scaleY > scaleFactor.y) scaleFactor.y = scaleY;
 
-        return `scale(${scaleX} ${scaleY})`;
+        if(d.length > scaleFactor.wordY ) scaleFactor.wordY = d.length;
+
+        return textMode === 'stamp' ? `scale(${scaleX} ${scaleY})` : 'scale(1 1)';
       }
     }).text(d => d);
 
@@ -305,35 +292,36 @@ class Block {
       height
     } = this.textInstance.node().getBBox();
 
+    scaleFactor.fox = scaleFactor.x > scaleFactor.y ? scaleFactor.x : scaleFactor.y
+
     let textTransX = 0;
-    let textTransY = this.browser.isFirefox ? -scaleFactor.y*fontSize : -height / 2;
+    let textTransY = 0;
 
     const strokeW = width/16;
-    const rectW = width + strokeW*0.8;
-    const rectH = height + strokeW*0.8;
+    const rectW = this.browser.isFirefox ? width : width + strokeW;
+    const rectH = this.browser.isFirefox ? height : height + strokeW;
 
     switch(textAnchor){
       case 'start':
-        if(this.browser.isIOS || this.browser.isSafari ){
-          textTransX = (allTspanData.length - 1)*fontSize*0.5;
-          if(this.browser.isIOS) textTransX += strokeW;
-        }else if(this.browser.isFirefox){
-          textTransX = scaleFactor.x*fontSize;
+        if(this.browser.isFirefox){
+          if(textMode === 'stamp'){
+            textTransX = scaleFactor.fox * realFontSize;
+            textTransY = -scaleFactor.fox * realFontSize;
+          }else{
+            textTransX = allTspanData.length * realFontSize / 2;
+            textTransY = -scaleFactor.wordY * realFontSize / 2;
+          }
         }else{
           textTransX = width / 2;
+          textTransY = -height / 2;
         }
-        break;
-      case 'middle':
-        textTransX = 0;
-        break;
-      case 'end':
-        textTransX = width / 2;
         break;
     }
 
     this.rect.attrs({
       width: rectW,
       height: rectH,
+      opacity: textMode === 'stamp' ? 1 : 0,
       'stroke-width': strokeW,
       'transform': `translate(${-rectW/2} ${-rectH / 2})`,
       fill: 'none',

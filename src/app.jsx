@@ -14,13 +14,22 @@ import {
   getBlockRect,
   getURLVariables,
   copyToClipboard,
+  browserDetect,
 } from './utilities/other'
+
+import {
+  themes,
+  getSettingFromUrl,
+  getStyleUrlString,
+} from './utilities/themeSetting'
 
 import FontHandler from './utilities/fontHandler';
 import KeyEventHandler from './utilities/keyEventHandler';
 import IMGHandler from './utilities/imgHandler';
 
 import DropdownMenu from './components/dropdownMenu.jsx';
+import ConfirmModal from './components/confirmModal.jsx';
+import ThemeSelector from './components/themeSelector.jsx';
 
 import Block from './components/block';
 import DragBar from './components/dragBar';
@@ -38,6 +47,7 @@ const scaleControler = document.querySelector('.scale-controler');
 const rotateControler = document.querySelector('.rotate-controler');
 
 const btnSend = document.querySelector('.btn-send');
+const btnTheme = document.querySelector('.btn-theme');
 const btnErrorConfirm = document.querySelector('.notice-error-section .btn-confirm');
 
 const btnPreviewSend = document.querySelector('.check-section .btn-confirm');
@@ -56,69 +66,71 @@ const imgUrlBtn = document.querySelector('.img-url-col .btn-copy');
 const colorPicker = document.querySelector('.color-picker');
 let colorPickerComponent;
 
+const fontFamilySelector = document.querySelector('.font-family-selector');
+let fontFamilySelectorComponent;
+
+const rModal = document.querySelector('.js-r-modal');
+let rModalComponent;
+
 const imgHandler = new IMGHandler();
 
+/*
 const WIDTH = 320;
-const HEIGHT = 473;
+const HEIGHT = 480;
+*/
 
-
-const browser = {
+let browser = {
   isFirefox: false,
   isSafari: false,
   isIOS: false,
 }
 
-let screenSize = {
-  width: 768,
-  height: 540,
-}
-
 const settings = {
+  theme: 'classical',
+  renderScale: 2,
   view: {
-    width: WIDTH,
-    height: HEIGHT,
+    width: 0,
+    height: 0,
   },
   edit : {
-    width: WIDTH,
-    height: HEIGHT,
+    width: 0,
+    height: 0,
   },
   center : {
-    x: WIDTH / 2,
-    y: HEIGHT / 2,
+    x: 0,
+    y: 0,
   },
 }
 
 const fontFamilyOptions = [
-  { value: 'font-hdzb', label: '篆體'}
+  { value: 'font-hdzb', label: '篆體'},
+  { value: 'font-kouzansousho', label: '青柳草書'},
+  { value: 'font-aoyagireisho', label: '青柳隷書'},
 ]
 
 const fontData = {
   'font-hdzb': {
-      name: 'font-hdzb',
-      url: 'font/zhuanti.woff',
+    name: 'font-hdzb',
+    url: 'font/zhuanti.woff',
+  },
+  'font-kouzansousho': {
+    name: 'font-kouzansousho',
+    url: 'font/KouzanBrushFontSousyo.woff',
+  },
+  'font-aoyagireisho': {
+    name: 'font-aoyagireisho',
+    url: 'font/aoyagireisyosimo_ttf_2_01.woff',
   },
 };
-
-const keyArray = ['x', 'y', 'scale', 'rotate', 'fill', 'text'];
 
 const fontHandler = new FontHandler();
 const svgContainer = d3.select('.svg-container svg').datum(settings);
 
-svgContainer.append('g').attrs({
-  class: 'svg-block',
-}).insert('use').attrs({
-  transform: 'translate(0,0)',
-  'xlink:href': '#theme-bg',
-  href: '#theme-bg'
-});
-
-
-const canvasContainer = svgContainer.append('g').attrs({
-  class: 'canvas-container',
-  'mask': `url(#mask)`,
-});
-
+const bgBlock = svgContainer.append('g').attrs({ class: 'svg-block' });
+const canvasContainer = svgContainer.append('g').attrs({ class: 'canvas-container' });
 const indicatorContainer = svgContainer.append('g').attr('class', 'indicator-container');
+
+bgBlock.insert('use').attrs({ transform: 'translate(0,0)' });
 
 const enableTextEdit = () => {
   mainContentElement.classList.add('text-edit-mode');
@@ -306,6 +318,35 @@ const syncText = (text) => {
   }
 }
 
+const setTextMode = (textMode, needUpdate = true) => {
+  const btnArray = [btnTextStamp, btnTextNormal];
+  let activeBtn;
+
+  switch(textMode) {
+    case 'normal':
+      activeBtn = btnTextNormal;
+      break;
+    case 'stamp':
+      activeBtn = btnTextStamp;
+      break;
+  }
+
+  btnArray.forEach( btn => {
+    if(btn === activeBtn){
+      btn.active();
+    }else{
+      btn.deActive();
+    }
+  })
+
+  if(needUpdate && selectedBlock){
+    selectedBlock.update({textMode}, `change: text mode`, true, true);    
+  }
+}
+
+const btnTextStamp = new ToggleButton('.btn-text-left', ['stamp', 'stamp'], 'stamp', setTextMode, false);
+const btnTextNormal = new ToggleButton('.btn-text-right', ['normal', 'normal'], 'normal', setTextMode, false);
+
 const setScale = (val, needRecord = false) => {
   if(selectedBlock){
     const scale = 1 + val * 5;
@@ -327,37 +368,14 @@ const setIndicatorStyle = () => {
       y,
       scale,
       rotate,
-      symbol,
-      text,
-      fontSize,
-      mode,
     } = selectedBlock.style;
 
-    let width = 0;
-    let height = 0;
-    let nodeBBox;
+    const {
+      width,
+      height,
+    } = selectedBlock.textInstance.node().getBBox();
 
-    if(mode === 'text'){
-      nodeBBox = selectedBlock.textInstance.node().getBBox();
-    }
-
-    if(mode === 'symbol'){
-      nodeBBox = selectedBlock.vectorGroup.node().getBBox();
-    }
-
-    if(mode === 'pattern'){
-      nodeBBox = selectedBlock.vectorGroup.node().getBBox();
-      scale = 1;
-      rotate = 0;
-      x = nodeBBox.x + nodeBBox.width/2;
-      y = nodeBBox.y + nodeBBox.height/2;
-    }
-
-    width = nodeBBox.width;
-    height = nodeBBox.height;
-
-    indicator.setOpacity().setSize({width, height, scale})
-      .setPosition({x, y, rotate, isEditable: mode !== 'pattern'});
+    indicator.setOpacity().setSize({width, height, scale}).setPosition({x, y, rotate});
   }
 }
 
@@ -375,23 +393,29 @@ const syncDragBarStatus = style => {
 
 const syncButtonStatus = (targetBlock) => {
 
+  const {
+    fill,
+    fontFamily,
+    fontSize,
+    scale,
+    text,
+    textMode,
+  } = targetBlock.style;
+
   colorPickerComponent.enable();
-  colorPickerComponent.setColor(targetBlock.style.fill);
+  colorPickerComponent.setColor(fill);
 
-  if(targetBlock.style.mode !== 'text'){
-    const symbolDef = document.getElementById(`${targetBlock.style.symbol}-symbol`);
-  }
+  fontFamilySelectorComponent.enable();
+  fontFamilySelectorComponent.setSelectedLabel(fontFamily);
 
-  if(targetBlock.style.mode === 'text'){
-    const fontSize = targetBlock.style.fontSize * targetBlock.style.scale;
-    textEditArea.value = targetBlock.style.text;
-    textEditArea.disabled = false;
-    textEditArea.focus();
+  textEditArea.value = text;
+  textEditArea.disabled = false;
+  textEditArea.focus();
 
-    scaleControlerComponent.disableToggle(false);
-    rotateControlerComponent.disableToggle(false);
-  }
+  scaleControlerComponent.disableToggle(false);
+  rotateControlerComponent.disableToggle(false);
 
+  setTextMode(textMode, false);
   syncDragBarStatus(targetBlock.style)
 }
 
@@ -415,6 +439,11 @@ const deSelectBlock = (needRecord = false) => {
     colorPickerComponent.disable();
   }
 
+  if(fontFamilySelectorComponent){
+    fontFamilySelectorComponent.menuToogle();
+    fontFamilySelectorComponent.disable();
+  }
+
   indicator.setOpacity(0).setSize({width: 0, height: 0}).setPosition({x: 0, y: 0});
   if(selectedBlock) selectedBlock.update({ isSelected: false}, 'unselect', false, needRecord);
   selectedBlock = null;
@@ -431,18 +460,10 @@ const addBlock = (style, needSelect = true, needRecord = true)  => {
   addNewBlock(newBlock, needSelect, needRecord);
 }
 
-const addObject = (symbol) => {
-  const style = {
-    mode: 'symbol',
-    x: settings.center.x,
-    y: settings.center.y,
-    symbol,
-  }
-  const newBlock = new Block(svgContainer, canvasContainer, style, selectBlock, setIndicatorStyle, recordHistory, enableTextEdit);
-  addNewBlock(newBlock);
+const setColor = color => { if(selectedBlock) selectedBlock.update({fill: color}, 'change color', false, true); };
+const setFontFamily = fontFamily => { 
+  if(selectedBlock) selectedBlock.update({fontFamily}, 'change: fontFamily', true, true);
 }
-
-const setColor = (color) => { if(selectedBlock) selectedBlock.update({fill: color}, 'change color', false, true); };
 
 const setImageDownloadSize = (type, scale) => {
   const canvas = document.querySelector('.check-section canvas');
@@ -462,27 +483,28 @@ const pageStopLoading = () => {
   document.querySelector('.loading-panel .loading-info').innerText = '';
 }
 
-const getStyleUrlString = (block = { style: {} }) => {
-  return keyArray.map( d => `${d}=${encodeURIComponent(block.style[d])}`).join('&');
-}
-
 const previewAndDraw = async () => {
-  const urlVar = getStyleUrlString(blocksArray[0]);
+  const urlVar = getStyleUrlString(blocksArray[0].style);
   shareUrl = `${location.origin}${location.pathname}?${urlVar}`;
 
   shareUrlElement.value = shareUrl;
 
   let drawElement = d3.select(svgContainer.node().cloneNode(true));
-  const drawWidth = WIDTH * 2;
-  const drawHeight = HEIGHT * 2;
+  const {
+    width,
+    height,
+  } = settings.view;
+
+  const drawWidth = width * settings.renderScale;
+  const drawHeight = height * settings.renderScale;
 
   const embedFontData = [];
   const embedFontList = [];
 
   drawElement.attrs({
-    viewBox: `0 0 ${WIDTH} ${HEIGHT}`,
-    width: WIDTH,
-    height: HEIGHT,
+    viewBox: `0 0 ${width} ${height}`,
+    width: width,
+    height: height,
   })
   drawElement.select('.indicator-container').remove();
 
@@ -496,13 +518,10 @@ const previewAndDraw = async () => {
     }
   })
 
-  
   drawElement = await fontHandler.embedFont(embedFontData, drawElement);
 
   const svgNode = await imgHandler.handleSVGNode(drawElement.node());
   const imgURL = imgHandler.getSVGUrl(svgNode);
-
-  //console.log(imgURL)
 
   pageStopLoading();
 
@@ -514,23 +533,23 @@ const previewAndDraw = async () => {
   document.body.classList.add('page-check');
 
   image.onload = () => {
-    const imgWidth = WIDTH * 2;
-    const imgHeight = HEIGHT * 2;
-    ctx.canvas.width = imgWidth;
-    ctx.canvas.height = imgHeight;
-    ctx.drawImage(image, 0, 0,imgWidth, imgHeight);
+    ctx.canvas.width = width * settings.renderScale;
+    ctx.canvas.height = height * settings.renderScale;
+    ctx.drawImage(image, 0, 0,width * settings.renderScale, height * settings.renderScale);
   }
 
   image.src = imgURL;
 }
 
 const sendImage = async () => {
-  const drawWidth = WIDTH * 2;
-  const drawHeight = HEIGHT * 2;
+  const {
+    width,
+    height,
+  } = settings.view;
 
   const canvas = document.querySelector('.check-section canvas');
   const imgURL = canvas.getAttribute('data-url');
-  const base64String = await imgHandler.getBase64String(imgURL, drawWidth, drawHeight);
+  const base64String = await imgHandler.getBase64String(imgURL, width * settings.renderScale, height * settings.renderScale);
 
   const url = 'https://api.imgur.com/3/image'
   const headers = new Headers({
@@ -599,24 +618,69 @@ const moveBlock = posVal => () => {
 const setSVGViewBox = () => {
   const mainWidth = mainContentElement.offsetWidth;
   const mainHeight = mainContentElement.offsetHeight;
+  const {
+    width,
+    height,
+  } = settings.view;
 
   svgContainer.attrs({
-    viewBox: `${(WIDTH - mainWidth) / 2} ${(HEIGHT - mainHeight) / 2 } ${mainWidth} ${mainHeight}`
+    viewBox: `${(width - mainWidth) / 2} ${(height - mainHeight) / 2 } ${mainWidth} ${mainHeight}`
   });
 }
 
-btnSend.onclick = () => { previewAndDraw();}
+const resize = () => { setSVGViewBox(); }
 
-btnPreviewSend.onclick = () => {
-  sendImage();
+const showFetchError = () => {
+  document.body.classList.remove('page-loading');
+  document.body.classList.add('page-error');
 }
 
-textEditArea.onkeyup = setTextContent;
+const setSVGByTheme = theme => {
 
+  const urlSetting = getSettingFromUrl();
+  const selectedTheme = theme || urlSetting.theme || 'classical';
+
+  const {
+    name,
+    bg,
+    mask,
+    width,
+    height,
+    style,
+  } = themes[selectedTheme] || themes['classical'];
+
+  settings.view = { width, height };
+  settings.edit = { width, height };
+  settings.center = { x: width / 2, y: height /2 };
+
+  mainContentElement.style.minHeight = `${height}px`;
+
+  bgBlock.select('use').attrs({ 'xlink:href': bg });
+  canvasContainer.attrs({ 'mask': `url(${mask})`, 'data-mask': mask});
+
+  btnTheme.innerText = `選擇樣式：${name}`
+
+  if(blocksArray.length === 0){
+    addBlock(Object.assign({}, style, urlSetting));
+    setTimeout(() => { moveBlock([-1,0])(); moveBlock([1,0])();}, 300)
+  }
+
+  setSVGViewBox();
+}
+
+const selectTheme = theme => {
+  if(rModalComponent) rModalComponent.close();
+  setSVGByTheme(theme);
+}
+
+btnSend.onclick = () => { previewAndDraw();}
+btnPreviewSend.onclick = () => { sendImage(); }
+
+textEditArea.onkeyup = setTextContent;
 textEditArea.onfocus = () => { keyEventHandler.disable();}
 textEditArea.onblur = () => { keyEventHandler.enable();}
 
-btnPNGDownload.onclick = () => { setImageDownloadSize('png', 3); };
+btnPNGDownload.onclick = () => { setImageDownloadSize('png', 2); };
 
 d3.select('.main-content').on('click', () => { 
   const tagNames = ['tspan', 'text'];
@@ -627,20 +691,8 @@ d3.select('.main-content').on('click', () => {
   }
 });
 
-scaleControlerComponent = new DragBar(scaleControler, setScale, 0.5/9.5);
-rotateControlerComponent = new DragBar(rotateControler, setRotate, 0);
-
 keyEventHandler.bindEvents(90, undo, true);
 keyEventHandler.bindEvents(90, redo, true, true);
-
-const resize = () => {
-  setSVGViewBox();
-}
-
-const showFetchError = () => {
-  document.body.classList.remove('page-loading');
-  document.body.classList.add('page-error');
-}
 
 btnErrorConfirm.onclick = () => { document.body.classList.remove('page-error'); }
 btnPreviewCancel.onclick = () => { document.body.classList.remove('page-check'); }
@@ -651,54 +703,47 @@ imgUrlBtn.onclick = () => { copyToClipboard(imgUrl); }
 
 colorPickerComponent = ReactDOM.render(<ColorPicker onChange={setColor}></ColorPicker>, colorPicker);
 
-deSelectBlock();
-setSVGViewBox();
+scaleControlerComponent = new DragBar(scaleControler, setScale, 0.5/9.5);
+rotateControlerComponent = new DragBar(rotateControler, setRotate, 0);
+
+btnTheme.onclick = () => { rModalComponent.open(); }
+
+fontFamilySelectorComponent = ReactDOM.render(
+  <DropdownMenu 
+    isFont={true}
+    options={fontFamilyOptions}
+    onChangeFn={(fontFamily) => { setFontFamily(fontFamily) }}
+  ></DropdownMenu>, 
+  fontFamilySelector
+);
+
+rModalComponent = ReactDOM.render(
+  <ConfirmModal 
+    title={'選擇一個樣式'}
+    confirm={() => { setSVGByTheme(); }}
+    childComponent = {<ThemeSelector selectTheme={selectTheme} />}
+  ></ConfirmModal>, 
+  rModal
+);
 
 window.onload = () => {
-  const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
-  const isEdge = document.documentMode || /Edge/.test(navigator.userAgent);
-  const isIE =  /MSIE/.test(navigator.userAgent) || /Trident/.test(navigator.userAgent);
+  browser = browserDetect();
 
-  browser.isFirefox = document.documentMode || /Firefox/.test(navigator.userAgent);
-  browser.isIOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
-  browser.isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
-
-
-//  if(isSafari || isEdge || isIE){
-  if(isEdge || isIE){
+  if(browser.isEdge || browser.isIE){
     document.body.classList.add('page-disable-notice'); 
   }else{
     document.body.classList.remove('page-initial'); 
-    const themeEditor = document.getElementById('theme-editor');
-
-    screenSize.width = themeEditor.getAttribute('screen-w') ? parseInt(themeEditor.getAttribute('screen-w')) : 768;
-    screenSize.height = themeEditor.getAttribute('screen-h') ? parseInt(themeEditor.getAttribute('screen-h')) : 540;
-
     window.addEventListener('resize', e => { resize();});
+    clearAll();
 
-    const varList = getURLVariables(location.href);
-    const intKeyList = [ 'x', 'y', 'scale', 'rotate' ];
-    const setting = {
-      mode: 'text',
-      fontFamily: 'font-hdzb',
-      fontSize: 32,
-      text: '泥馬霸氣\n符咒\n製成器',
-      fill: '#c35e02',
-      x: 165,
-      y:343,
+    const {
+      theme
+    } = getSettingFromUrl();
+
+    if(theme && themes[theme]){
+      setSVGByTheme(theme);
+    }else{
+      rModalComponent.open();
     }
-
-    varList.forEach( d => {
-      if(d.val && keyArray.indexOf(d.key) > -1){
-        setting[d.key] = intKeyList.indexOf(d.key) > -1 ? parseInt(d.val) : d.val;
-      }
-    })
-
-    addBlock(setting);
-
-    setTimeout(() => {
-      moveBlock([-1,0])();
-      moveBlock([1,0])();
-    }, 300)
   }
 }
