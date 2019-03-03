@@ -297,8 +297,6 @@ class Block {
     let textTransX = 0;
     let textTransY = 0;
 
-    console.log(scaleFactor, width, height)
-
     const strokeW = width/16;
     const rectW = this.browser.isFirefox ? width : width + strokeW;
     const rectH = this.browser.isFirefox ? height : height + strokeW;
@@ -319,9 +317,6 @@ class Block {
         }
         break;
     }
-
-    //textTransX = width / 2;
-    //textTransY =  -height / 2;
 
     this.rect.attrs({
       width: rectW,

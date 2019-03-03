@@ -5,7 +5,6 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 
 @import "_variables.scss";
-//@import "_mixins.scss";
 @import "_icon_font.scss";
 @import "_custom_font.scss";
 
@@ -19,3 +18,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import "sections/_edit_panel.scss";
 @import "sections/_main_content.scss";
 @import "sections/_upload_panel.scss";
+
+.container-fluid{
+	padding: 0;
+}

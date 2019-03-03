@@ -2,7 +2,6 @@
 <html>
   <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!--
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135284689-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -10,20 +9,21 @@
       gtag('js', new Date());
       gtag('config', 'UA-135284689-1');
     </script>
-    -->
     <title>泥馬霸氣符咒編輯器</title>
+    <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
   </head>
   <body class="page-initial">
     <section id="theme-editor" class="theme-editor-section">
       <main>
-        <div class="row no-gutters">
-          <div class="main row no-gutters justify-content-center align-items-center">
-            ${require('./components/svg-container.html')}
-          </div>
-          ${require('./components/edit-panel.html')}
+        <div class="container-fluid">
+          <div class="row no-gutters">
+            <div class="main row no-gutters justify-content-center align-items-center">
+              ${require('./components/svg-container.html')}
+            </div>
+            ${require('./components/edit-panel.html')}
+          </div>          
         </div>
-        <div class="js-r-modal"></div>
       </main>
       <div class="loading-panel">
         <div class="d-flex justify-content-center align-items-center h-100">
@@ -46,7 +46,7 @@
                     </button>
                   </div>
                   <div class="share-col img-url-col col-12 d-none">
-                    imgurl:
+                    imgur:
                     <input type="text" class="url" />
                     <button class="btn btn-copy">
                       <i class="fa fa-files-o" aria-hidden="true"></i> 複製
@@ -62,7 +62,7 @@
                   </button>
                   <button class="btn btn-confirm">
                     <i class="fa fa-cloud-upload" aria-hidden="true"></i><br/>
-                    上傳imgurl
+                    上傳imgur
                   </button>
                   <button class="btn btn-download">
                     <i class="fa fa-download" aria-hidden="true"></i><br/>
@@ -105,5 +105,6 @@
         </div>
       </div>
     </section>
+    <div class="js-r-modal"></div>
   </body>
 </html>

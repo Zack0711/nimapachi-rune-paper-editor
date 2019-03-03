@@ -4,6 +4,7 @@ import {
 
 export const themes = {
   classical: {
+    name: '經典款',
     bg: '#theme-bg-01',
     mask: '#mask-01',
     width: 320,
@@ -21,6 +22,7 @@ export const themes = {
     },
   },
   yoda: {
+    name: '大師款',
     bg: '#theme-bg-02',
     mask: '#mask-02',
     width: 320,

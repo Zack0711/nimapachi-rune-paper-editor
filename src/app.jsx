@@ -28,6 +28,8 @@ import KeyEventHandler from './utilities/keyEventHandler';
 import IMGHandler from './utilities/imgHandler';
 
 import DropdownMenu from './components/dropdownMenu.jsx';
+import ConfirmModal from './components/confirmModal.jsx';
+import ThemeSelector from './components/themeSelector.jsx';
 
 import Block from './components/block';
 import DragBar from './components/dragBar';
@@ -45,6 +47,7 @@ const scaleControler = document.querySelector('.scale-controler');
 const rotateControler = document.querySelector('.rotate-controler');
 
 const btnSend = document.querySelector('.btn-send');
+const btnTheme = document.querySelector('.btn-theme');
 const btnErrorConfirm = document.querySelector('.notice-error-section .btn-confirm');
 
 const btnPreviewSend = document.querySelector('.check-section .btn-confirm');
@@ -65,6 +68,9 @@ let colorPickerComponent;
 
 const fontFamilySelector = document.querySelector('.font-family-selector');
 let fontFamilySelectorComponent;
+
+const rModal = document.querySelector('.js-r-modal');
+let rModalComponent;
 
 const imgHandler = new IMGHandler();
 
@@ -630,12 +636,12 @@ const showFetchError = () => {
 }
 
 const setSVGByTheme = theme => {
-  clearAll();
 
   const urlSetting = getSettingFromUrl();
   const selectedTheme = theme || urlSetting.theme || 'classical';
 
   const {
+    name,
     bg,
     mask,
     width,
@@ -647,11 +653,24 @@ const setSVGByTheme = theme => {
   settings.edit = { width, height };
   settings.center = { x: width / 2, y: height /2 };
 
+  mainContentElement.style.minHeight = `${height}px`;
+
   bgBlock.select('use').attrs({ 'xlink:href': bg });
   canvasContainer.attrs({ 'mask': `url(${mask})`, 'data-mask': mask});
 
-  addBlock(Object.assign({}, style, urlSetting));
+  btnTheme.innerText = `選擇樣式：${name}`
+
+  if(blocksArray.length === 0){
+    addBlock(Object.assign({}, style, urlSetting));
+    setTimeout(() => { moveBlock([-1,0])(); moveBlock([1,0])();}, 300)
+  }
+
   setSVGViewBox();
+}
+
+const selectTheme = theme => {
+  if(rModalComponent) rModalComponent.close();
+  setSVGByTheme(theme);
 }
 
 btnSend.onclick = () => { previewAndDraw();}
@@ -687,6 +706,8 @@ colorPickerComponent = ReactDOM.render(<ColorPicker onChange={setColor}></ColorP
 scaleControlerComponent = new DragBar(scaleControler, setScale, 0.5/9.5);
 rotateControlerComponent = new DragBar(rotateControler, setRotate, 0);
 
+btnTheme.onclick = () => { rModalComponent.open(); }
+
 fontFamilySelectorComponent = ReactDOM.render(
   <DropdownMenu 
     isFont={true}
@@ -694,6 +715,15 @@ fontFamilySelectorComponent = ReactDOM.render(
     onChangeFn={(fontFamily) => { setFontFamily(fontFamily) }}
   ></DropdownMenu>, 
   fontFamilySelector
+);
+
+rModalComponent = ReactDOM.render(
+  <ConfirmModal 
+    title={'選擇一個樣式'}
+    confirm={() => { setSVGByTheme(); }}
+    childComponent = {<ThemeSelector selectTheme={selectTheme} />}
+  ></ConfirmModal>, 
+  rModal
 );
 
 window.onload = () => {
@@ -704,12 +734,16 @@ window.onload = () => {
   }else{
     document.body.classList.remove('page-initial'); 
     window.addEventListener('resize', e => { resize();});
+    clearAll();
 
-    setSVGByTheme();
+    const {
+      theme
+    } = getSettingFromUrl();
 
-    setTimeout(() => {
-      moveBlock([-1,0])();
-      moveBlock([1,0])();
-    }, 300)
+    if(theme && themes[theme]){
+      setSVGByTheme(theme);
+    }else{
+      rModalComponent.open();
+    }
   }
 }

@@ -47,6 +47,7 @@ class ConfirmModal extends React.Component {
     const {
       title,
       childComponent,
+      showFooter,
     } = this.props;
 
     const {
@@ -87,12 +88,16 @@ class ConfirmModal extends React.Component {
           <div className="panel-body">
             {childComponent}
           </div>
-          <div className="panel-footer">
-            <div className="d-flex justify-content-around">
-              <button className="btn btn-cancel" onClick={close}>取消</button>
-              <button className="btn btn-confirm" onClick={confirm}>確定</button>
-            </div>
-          </div>
+          {
+            showFooter && (
+              <div className="panel-footer">
+                <div className="d-flex justify-content-around">
+                  <button className="btn btn-cancel" onClick={close}>取消</button>
+                  <button className="btn btn-confirm" onClick={confirm}>確定</button>
+                </div>
+              </div>
+            )
+          }
         </div>
       </Modal>
     )

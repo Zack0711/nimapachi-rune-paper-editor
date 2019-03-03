@@ -1,7 +1,5 @@
 .theme-editor-section{
   font-size: 10px;
-  overflow-y:visible;
-  min-height: 100vh;
   width: 100vw;
 
   .p-3{
@@ -108,6 +106,7 @@
 
   .main{
     width: calc(100% - 300px);
+    min-height:  100vh;
     position: relative;
   }
 
@@ -243,6 +242,7 @@ body{
       display: block;
       width: 100vw;
       height: 100vh;
+      overflow: auto;
       position: fixed;
       top: 0;
       left: 0;
@@ -362,7 +362,6 @@ body{
 
         canvas{
           width: 320px;
-          height: 476px;
         }
       }
     }
@@ -418,6 +417,7 @@ body{
   .theme-editor-section{
     .main{
       width: 100%;
+      min-height: 0;
     }
 
     .edit-panel{
@@ -435,12 +435,28 @@ body{
 
           .preview{
             padding: 0;
+            height: calc(100vh - 54px);
+          }
+
+          .panel{
+            padding-top: 54px;
+            height:  100vh;
+            overflow: auto;
+            position: relative;
+
+            .share-col{ order: 1 }
+            canvas{ order: 2 }
           }
 
           .panel-heading{
-            position: sticky;
+            display: none;
+          }
+
+          .panel-footer{
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%;
           }
 
           .btn{
