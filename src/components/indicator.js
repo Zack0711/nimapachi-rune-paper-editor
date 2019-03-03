@@ -17,7 +17,7 @@ const defaultStyle = {
   dy: 0,
   x: 0,
   y: 0,
-  isEditable: false,
+  isEditable: true,
 }
 
 class Indicator {
@@ -217,8 +217,6 @@ class Indicator {
     const posArray = [
       {x: -width / 2 - 1, y: -height / 2 -1}, 
       {x: width / 2 + 1, y: height / 2 + 1}
-//      {x: -width * scale / 2 - 1, y: -height * scale / 2 -1}, 
-//      {x: width * scale / 2 + 1, y: height * scale / 2 + 1}
     ];
     const pathData = [
       `M ${posArray[0].x} ${posArray[0].y}`,

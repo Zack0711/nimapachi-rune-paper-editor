@@ -13,9 +13,10 @@
       border: 1px solid #dadada;
       max-height: 240px;
       overflow: auto;
-      left: 3px;
 
       .dropdown-item{
+        padding: 5px 10px;
+
         &:hover{
           background-color: rgba(165, 207, 76, 0.3);
         }
