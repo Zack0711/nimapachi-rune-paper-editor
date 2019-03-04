@@ -46,6 +46,6 @@ Safari和iPhone已可以正常顯示及操作，但仍須繼續優化排版根�
 
 #### 選擇任一款式開始編輯吧！選擇任一款式開始編輯吧！
 + 小熊經典款 - [編輯](https://ppt.cc/f5tfhx "Edit Link") | [imgur](https://i.imgur.com/AByfXaP.jpg "imgur Link")
-+ 尤達大師版 - [編輯](https://ppt.cc/felA9x "Edit Link") | [imgrur](https://i.imgur.com/uTcpu2X.jpg "imgur Link")
++ 尤達大師版 - [編輯](https://ppt.cc/felA9x "Edit Link") | [imgur](https://i.imgur.com/uTcpu2X.jpg "imgur Link")
 + 議員口號版 - [編輯](https://ppt.cc/fouZFx "Edit Link") | [imgur](https://i.imgur.com/B67j128.jpg "imgur Link")
 + 市長口號版 - [編輯](https://ppt.cc/fyUeqx "Edit Link") | [imgur](https://i.imgur.com/DlQNEXl.jpg "imgur Link")

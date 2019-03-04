@@ -263,7 +263,6 @@ class Block {
       x: 1,
       y: 1,
       wordY: 1,
-      fox: 1,
     };
 
     allTspanData.forEach(d => { if(d.length > factor) factor = d.length; })
@@ -292,8 +291,6 @@ class Block {
       height
     } = this.textInstance.node().getBBox();
 
-    scaleFactor.fox = scaleFactor.x > scaleFactor.y ? scaleFactor.x : scaleFactor.y
-
     let textTransX = 0;
     let textTransY = 0;
 
@@ -305,8 +302,8 @@ class Block {
       case 'start':
         if(this.browser.isFirefox){
           if(textMode === 'stamp'){
-            textTransX = scaleFactor.fox * realFontSize;
-            textTransY = -scaleFactor.fox * realFontSize;
+            textTransX = factor * realFontSize /2;
+            textTransY = -factor * realFontSize /2;
           }else{
             textTransX = allTspanData.length * realFontSize / 2;
             textTransY = -scaleFactor.wordY * realFontSize / 2;
@@ -317,6 +314,9 @@ class Block {
         }
         break;
     }
+
+    //textTransX = 0;
+    //textTransY = 0;
 
     this.rect.attrs({
       width: rectW,

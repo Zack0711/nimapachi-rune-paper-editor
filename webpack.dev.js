@@ -35,7 +35,7 @@ module.exports = {
   optimization,
   output: {
     path: __dirname + '/dist/',
-    filename: '[name].js'
+    filename:'[name].js?[hash]',
   },
   devServer: {
     inline: true,
